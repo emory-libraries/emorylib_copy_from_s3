@@ -11,7 +11,7 @@
 
 - debug:
     var: exists
-    
+
 - name: Fail play if path exists and stop selected
   assert:
     that: not exists or (if_path == "delete" or if_path == "backup")
@@ -35,7 +35,7 @@
     - exists
 
 - debug:
-    var: delete_job_info
+    var: delete_job_info | d ()
 
 - name: Confirm delete job
   async_status:
@@ -44,9 +44,12 @@
   until: async_delete_job_info.finished
   retries: 100
   delay: 10
+  when:
+    - if_path == "delete"
+    - exists
 
 - debug:
-    var: async_delete_job_info
+    var: async_delete_job_info | d ()
 
 
     
