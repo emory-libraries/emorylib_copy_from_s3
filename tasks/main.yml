@@ -30,3 +30,11 @@
       become_method: '{{ escalate.become_method | d (omit) }}'
   vars:
     s3: '{{ copy_from_s3.s3 | d () }}'
+
+- name: Include tasks to confirm delete
+  include_tasks: confirm-delete.yml
+  vars:
+    exists: '{{ path_info.stat.exists | d () }}'
+  when:
+    - if_path == "delete"
+    - exists
