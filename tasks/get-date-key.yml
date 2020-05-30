@@ -17,10 +17,11 @@
 
 - name: Get date key from date
   set_fact:
-    date_key: '{{ s3.date | lower == "latest" | ternary (date_latest, date_given) }}'
+    date_key: '{{ date_bool | ternary (date_latest, date_given) }}'
   vars:
     date_given: '{{ date_keys | select("equalto", s3.date) | list | last | d ("none") }}'
     date_latest: '{{ date_keys [-1] }}'
+    date_bool: '{{ s3.date | lower == "latest" }}'
 
 - name: Assert that date key was found
   assert:
