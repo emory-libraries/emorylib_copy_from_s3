@@ -29,6 +29,7 @@
       become_user: '{{ escalate.become_user | d (omit) }}'
       become_method: '{{ escalate.become_method | d (omit) }}'
   vars:
+    escalate: '{{ copy_from_s3.escalate | d () }}'
     s3: '{{ copy_from_s3.s3 | d () }}'
 
 - name: Include tasks to confirm delete
